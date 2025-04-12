@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include "../include/utils.h"
 #include "../include/error.h"
 
 
@@ -22,6 +23,9 @@ void handle_request(char *request, int client_socket) {
         // remove leading '/'
         memmove(file_path, file_path + 1, strlen(file_path));
     }
+    
+    // get type of file
+    const char *content_type = get_mime_type(file_path);
 
 
     FILE *file = fopen(file_path, "r");
@@ -41,12 +45,12 @@ void handle_request(char *request, int client_socket) {
     char http_header[8192];
     snprintf(http_header, sizeof(http_header),
              "HTTP/1.1 200 OK\r\n"
-             "Content-Type: text/html\r\n"
+             "Content-Type: %s\r\n"
              "Content-Length: %ld\r\n"
-             "\r\n"
-             "%s",
-             strlen(response_data), response_data);
+             "\r\n",
+             content_type, strlen(response_data));
 
     // send response
     send(client_socket, http_header, strlen(http_header), 0);
+    send(client_socket, response_data, strlen(response_data), 0);
 }
