@@ -139,9 +139,3 @@ Visit [http://localhost:2020](http://localhost:2020) in your browser.
 ## 🤝 Contributing
 
 Pull requests and suggestions are welcome! Feel free to fork the project and submit a PR.
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
